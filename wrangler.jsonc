@@ -2,5 +2,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "face-pong",
   "compatibility_date": "2024-12-01",
-  "pages_build_output_dir": "./dist"
+  "pages_build_output_dir": "./dist",
+  "kv_namespaces": [
+    {
+      "binding": "SIGNAL_KV",
+      "id": "24fa5bfaafbd47878bec784e341ad7a4",
+      "preview_id": "24fa5bfaafbd47878bec784e341ad7a4"
+    }
+  ]
 }
