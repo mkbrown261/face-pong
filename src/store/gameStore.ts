@@ -68,8 +68,17 @@ export interface GameState {
   winner: 'left' | 'right' | 'tie' | null
   speedTier: number
   comboColors: string[]
-  // screen fx (managed by renderer, not stored)
   settingsOpen: boolean
+
+  // Power-up state (mirrors PowerUpManager for HUD display)
+  leftPowerTier: number
+  rightPowerTier: number
+  leftStreak: number
+  rightStreak: number
+  activePowerSide: 'left' | 'right' | null
+  missileActive: boolean
+  phantomActive: boolean
+  tierJustReached: { side: 'left'|'right'; tier: number } | null
 
   // Actions
   setPhase: (phase: GamePhase) => void
@@ -90,6 +99,7 @@ export interface GameState {
   endRound: () => void
   setFaceDetected: (player: 'left' | 'right', detected: boolean) => void
   setOnline: (o: Partial<OnlineState>) => void
+  syncPowerState: (leftTier: number, rightTier: number, leftStreak: number, rightStreak: number, activeSide: 'left'|'right'|null, missileActive: boolean, phantomActive: boolean, tierJust: {side:'left'|'right';tier:number}|null) => void
 }
 
 const COMBO_COLOR_SETS = [
@@ -130,6 +140,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   leftFaceDetected: false, rightFaceDetected: false,
   roundScores: [], winner: null,
   speedTier: 0, comboColors: COMBO_COLOR_SETS[0],
+  leftPowerTier: 0, rightPowerTier: 0,
+  leftStreak: 0, rightStreak: 0,
+  activePowerSide: null, missileActive: false, phantomActive: false,
+  tierJustReached: null,
 
   setPhase: (phase) => set({ phase }),
 
@@ -149,6 +163,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       roundScores: [], winner: null, finalSeconds: false,
       particles: [], scorePopups: [], lastHitPlayer: null,
       speedTier: 0, comboColors: COMBO_COLOR_SETS[0],
+      leftPowerTier: 0, rightPowerTier: 0,
+      leftStreak: 0, rightStreak: 0,
+      activePowerSide: null, missileActive: false, phantomActive: false,
+      tierJustReached: null,
       online: { ...get().online, mode },
       ...makeBallState(s),
     })
@@ -162,6 +180,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     particles: [], scorePopups: [], roundScores: [], winner: null,
     finalSeconds: false, lastHitPlayer: null,
     speedTier: 0, comboColors: COMBO_COLOR_SETS[0],
+    leftPowerTier: 0, rightPowerTier: 0,
+    leftStreak: 0, rightStreak: 0,
+    activePowerSide: null, missileActive: false, phantomActive: false,
+    tierJustReached: null,
     ...makeBallState(state.settings),
   })),
 
@@ -265,4 +287,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     player === 'left' ? set({ leftFaceDetected: detected }) : set({ rightFaceDetected: detected }),
 
   setOnline: (o) => set((state) => ({ online: { ...state.online, ...o } })),
+
+  syncPowerState: (leftTier, rightTier, leftStreak, rightStreak, activeSide, missileActive, phantomActive, tierJust) =>
+    set({
+      leftPowerTier: leftTier, rightPowerTier: rightTier,
+      leftStreak, rightStreak,
+      activePowerSide: activeSide,
+      missileActive, phantomActive,
+      tierJustReached: tierJust,
+    }),
 }))
