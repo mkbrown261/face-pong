@@ -15,6 +15,20 @@
 - 🏆 **3 rounds × 60 seconds** structure
 - 🎮 **Keyboard fallback** — W/S for P1, ↑↓ for P2
 
+### ⚡ Power-Up Tier System (v3)
+Earn power-ups by hitting consecutive shots without missing:
+
+| Streak | Tier | Power-Up | Effect |
+|--------|------|----------|--------|
+| 3 hits | ⚡ SPEED | Speed Surge + Matrix Rain | +30% ball speed, green digital rain on your half |
+| 5 hits | 👻 PHANTOM | Phantom Ball | Extra translucent purple ball spawns — double-edged! |
+| 7 hits | 🔥 FIREBALL | Fireball Mode | Ball becomes a live fireball video; explosion on every hit |
+| 9 hits | 🚀 MISSILE | Missile Lock | Heat-seeking missile fires at opponent; intercept or take the point |
+
+- **Reset rule:** Any miss (opponent scores) resets your streak to 0
+- **Opponent telegraph:** Tier unlock banners + warnings shown to both players
+- **Missile intercept:** Defend by moving your paddle to the missile's path
+
 ### Visual Effects
 - 💥 **Particle explosions** on every paddle hit
 - 🌈 **Dynamic color palette** changes (5 rotating color combinations)
