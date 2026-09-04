@@ -57,11 +57,12 @@ class CalibRange {
   }
 
   // Map raw [min..max] → game space [-0.85..0.85]
+  // MediaPipe Y: top=0, bottom=1 → must INVERT so head UP = positive Y in game
   normalize(raw: number): number {
     const range = this.max - this.min
     if (range < 0.02) return 0  // not enough calibration data
     const t = Math.max(0, Math.min(1, (raw - this.min) / range))
-    return (t - 0.5) * 1.7  // invert: head up → positive y
+    return (0.5 - t) * 1.7  // inverted: head up (low rawY) → positive game Y
   }
 
   get isReady() { return !this.warmup }
